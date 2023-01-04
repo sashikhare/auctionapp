@@ -13,26 +13,57 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Grow from "@mui/material/Grow";
+import Paper from "@mui/material/Paper";
+import Popper from "@mui/material/Popper";
+import MenuList from "@mui/material/MenuList";
 import Home from "../../pages/Home";
+import PlayerSubMenuItem from "./PlayerSubMenuItem"
 
 const pages = ["Home", "Teams", "Players"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const Header = () => {
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
 
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-      };
-      const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-      };
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
+
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  function handleListKeyDown(event) {
+    if (event.key === "Tab") {
+      event.preventDefault();
+      setOpen(false);
+    } else if (event.key === "Escape") {
+      setOpen(false);
+    }
+  }
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+
   return (
     <>
       <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-
             {/* For Msite */}
             <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
             <Typography
@@ -81,16 +112,30 @@ const Header = () => {
                   display: { xs: "block", md: "none" },
                 }}
               >
-                {pages.map((page) => (
-                  <MenuItem
-                    key={page}
-                    onClick={handleCloseNavMenu}
-                    component={Link}
-                    to={`/${page}`}
-                  >
-                    <Typography textAlign="center">{page}</Typography>
-                  </MenuItem>
-                ))}
+                <MenuItem
+                  key="Home"
+                  onClick={handleCloseNavMenu}
+                  component={Link}
+                  to="/Home"
+                >
+                  <Typography textAlign="center">Home</Typography>
+                </MenuItem>
+                <MenuItem
+                  key="Teams"
+                  onClick={handleCloseNavMenu}
+                  component={Link}
+                  to="/Teams"
+                >
+                  <Typography textAlign="center">Teams</Typography>
+                </MenuItem>
+                <MenuItem
+                  key="Players"
+                  onClick={handleCloseNavMenu}
+                  component={Link}
+                  to="/Players"
+                >
+                  <Typography textAlign="center">Players</Typography>
+                </MenuItem>
               </Menu>
             </Box>
 
@@ -115,17 +160,40 @@ const Header = () => {
               LOGO
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {pages.map((page) => (
-                <Button
-                  key={page}
-                  // onClick={handleCloseNavMenu}
-                  component={Link}
-                  to={`/${page}`}
-                  sx={{ my: 2, color: "white", display: "block" }}
-                >
-                  {page}
-                </Button>
-              ))}
+              <Button
+                key="Home"
+                // onClick={handleCloseNavMenu}
+                component={Link}
+                to={`/Home`}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                Home
+              </Button>
+              <Button
+                key="Teams"
+                // onClick={handleCloseNavMenu}
+                component={Link}
+                to={`/Teams`}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                Teams
+              </Button>
+              <Button
+                key="Players"
+                // onClick={handleCloseNavMenu}
+                // component={Link}
+                // to={`/Players`}
+                sx={{ my: 2, color: "white", display: "block" }}
+                ref={anchorRef}
+                id="composition-button"
+                aria-controls={open ? "composition-menu" : undefined}
+                aria-expanded={open ? "true" : undefined}
+                aria-haspopup="true"
+                onClick={handleToggle}
+              >
+                Players
+              </Button>
+              <PlayerSubMenuItem open={open} anchorEl={anchorRef} handleClose={handleClose} handleListKeyDown={handleListKeyDown} />
             </Box>
           </Toolbar>
         </Container>
