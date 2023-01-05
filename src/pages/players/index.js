@@ -6,6 +6,9 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import Button from "@mui/material/Button";
+import { bindActionCreators } from 'redux';
+import { batch, connect } from 'react-redux';
+import { SET_PLAYER_DETAILS } from "../../redux/action/ActionTypes";
 
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import FormControl from "@mui/material/FormControl";
@@ -29,6 +32,21 @@ const Players = (props) => {
   const [errorMessage, setErrorMessage] = React.useState("");
   const [successMessage, setSuccessMessage] = React.useState("");
 
+  const clearAllData = () => {
+    setFirstName('');
+    setLastName('');
+    setMobileNo('');
+    setArea('')
+    setCity('');
+    setGender();
+    setBirthYear('');
+    setAge('');
+    setFielderType();
+    setBatsmanType();
+    setBowlerType();
+    setSuccessMessage('');
+  }
+
   const handleClick = () => {
     const payload = {
       fname: firstName,
@@ -43,7 +61,17 @@ const Players = (props) => {
       bowlerType: bowlerType,
     };
     setSuccessMessage("Data Stored Successfully");
-    console.log("Payload", payload);
+    console.log("Payload", props.playerListData);
+    if(props.playerListData.length > 0){
+        const updatedPlayerList = [...props.playerListData,payload]
+        props.addPlayerDetails(updatedPlayerList);
+    }
+    else{
+        props.addPlayerDetails(payload);
+    }
+    setTimeout(() => {
+        clearAllData();
+    }, 2000)
   };
 
   //   const isTextValid = (text) => {
@@ -92,6 +120,7 @@ const Players = (props) => {
             label="First Name"
             id="fName"
             size="small"
+            value={firstName}
             // error={isTextValid(text)}
             // helperText={errorMessage}
             onChange={(e) => setFirstName(e.target.value)}
@@ -104,6 +133,7 @@ const Players = (props) => {
             label="Last Name"
             id="lName"
             size="small"
+            value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             sx={{ margin: "8px" }}
           />
@@ -115,6 +145,7 @@ const Players = (props) => {
           label="Mobile No"
           id="mobile"
           size="small"
+          value={mobileNo}
           // error={isTextValid(text)}
           // helperText={errorMessage}
           onChange={(e) => setMobileNo(e.target.value)}
@@ -128,6 +159,7 @@ const Players = (props) => {
             label="Area"
             id="area"
             size="small"
+            value={area}
             // error={isTextValid(text)}
             // helperText={errorMessage}
             onChange={(e) => setArea(e.target.value)}
@@ -140,31 +172,33 @@ const Players = (props) => {
             label="City"
             id="city"
             size="small"
+            value={city}
             onChange={(e) => setCity(e.target.value)}
             sx={{ margin: "8px" }}
           />
         </div>
         <div style={{ display: "flex", alignItems: "center", margin: "8px" }}>
-          <FormLabel id="demo-row-radio-buttons-group-label">Gender:</FormLabel>
+          <FormLabel id="demo-row-radio-buttons-group-label" required>Gender</FormLabel>
           <RadioGroup
             row
             aria-labelledby="demo-controlled-radio-buttons-group"
-            name="controlled-radio-buttons-group"
+            name="gender"
             value={gender}
             onChange={(e) => setGender(e.target.value)}
           >
-            <FormControlLabel
-              value="female"
-              control={<Radio />}
-              label="Female"
-              sx={{ margin: "4px" }}
-            />
             <FormControlLabel
               value="male"
               control={<Radio />}
               label="Male"
               sx={{ margin: "4px" }}
             />
+            <FormControlLabel
+              value="female"
+              control={<Radio />}
+              label="Female"
+              sx={{ margin: "4px" }}
+            />
+            
           </RadioGroup>
         </div>
         <div style={{ display: "flex", alignItems: "center" }}>
@@ -175,6 +209,7 @@ const Players = (props) => {
             label="Birth Year"
             id="birthYear"
             size="small"
+            value={birthYear}
             onChange={(e) => setBirthYear(e.target.value)}
             onBlur={calculateAge}
             // value={birthYear}
@@ -193,7 +228,7 @@ const Players = (props) => {
         </div>
         <h3>Cricket Information</h3>
         <div style={{ display: "flex", alignItems: "center", margin: "8px" }}>
-          <FormLabel id="demo-row-radio-buttons-group-label">
+          <FormLabel id="fielderType" required>
             Fielder Type:
           </FormLabel>
           <RadioGroup
@@ -230,7 +265,7 @@ const Players = (props) => {
           </RadioGroup>
         </div>
         <div style={{ display: "flex", alignItems: "center", margin: "8px" }}>
-          <FormLabel id="demo-row-radio-buttons-group-label">
+          <FormLabel id="batsmanType" required>
             Batsman Type:
           </FormLabel>
           <RadioGroup
@@ -241,21 +276,21 @@ const Players = (props) => {
             onChange={(e) => setBatsmanType(e.target.value)}
           >
             <FormControlLabel
-              value="Left Hand Batsman"
-              control={<Radio />}
-              label="Left Hand Batsman"
-              sx={{ margin: "4px" }}
-            />
-            <FormControlLabel
               value="Right Hand Batsman"
               control={<Radio />}
               label="Right Hand Batsman"
               sx={{ margin: "4px" }}
             />
+            <FormControlLabel
+              value="Left Hand Batsman"
+              control={<Radio />}
+              label="Left Hand Batsman"
+              sx={{ margin: "4px" }}
+            />
           </RadioGroup>
         </div>
         <div style={{ display: "flex", alignItems: "center", margin: "8px" }}>
-          <FormLabel id="demo-row-radio-buttons-group-label">
+          <FormLabel id="bowlerType" required>
             Bowler Type:
           </FormLabel>
           <RadioGroup
@@ -266,15 +301,15 @@ const Players = (props) => {
             onChange={(e) => setBowlerType(e.target.value)}
           >
             <FormControlLabel
-              value="Left Hand Bowler"
-              control={<Radio />}
-              label="Left Hand Bowler"
-              sx={{ margin: "4px" }}
-            />
-            <FormControlLabel
               value="Right Hand Bowler"
               control={<Radio />}
               label="Right Hand Bowler"
+              sx={{ margin: "4px" }}
+            />
+            <FormControlLabel
+              value="Left Hand Bowler"
+              control={<Radio />}
+              label="Left Hand Bowler"
               sx={{ margin: "4px" }}
             />
           </RadioGroup>
@@ -294,4 +329,20 @@ const Players = (props) => {
   );
 };
 
-export default Players;
+const mapDispatchToProps = dispatch => {
+	return bindActionCreators(
+		{
+			addPlayerDetails: data =>
+				dispatch({ type: SET_PLAYER_DETAILS, payload: {playerList: data} }),
+		},
+		dispatch,
+	);
+};
+
+const mapStateToProps = state => {
+    return{
+        playerListData : state.PlayerReducer.playerList,
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Players);
