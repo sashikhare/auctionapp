@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Radio from "@mui/material/Radio";
@@ -7,15 +8,15 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import Button from "@mui/material/Button";
 import { bindActionCreators } from 'redux';
-import { batch, connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { SET_PLAYER_DETAILS } from "../../redux/action/ActionTypes";
 
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import FormControl from "@mui/material/FormControl";
-import FormHelperText from "@mui/material/FormHelperText";
-import InputLabel from "@mui/material/InputLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import { green } from "@mui/material/colors";
+// import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+// import FormControl from "@mui/material/FormControl";
+// import FormHelperText from "@mui/material/FormHelperText";
+// import InputLabel from "@mui/material/InputLabel";
+// import OutlinedInput from "@mui/material/OutlinedInput";
+// import { green } from "@mui/material/colors";
 
 const Players = (props) => {
   const [firstName, setFirstName] = React.useState("");
@@ -29,8 +30,29 @@ const Players = (props) => {
   const [fielderType, setFielderType] = React.useState();
   const [batsmanType, setBatsmanType] = React.useState();
   const [bowlerType, setBowlerType] = React.useState();
-  const [errorMessage, setErrorMessage] = React.useState("");
+  // const [errorMessage, setErrorMessage] = React.useState("");
   const [successMessage, setSuccessMessage] = React.useState("");
+  const [respnseData, setResponseData] = useState();
+  // const [errorMsg, setErrorMsg] = useState()
+
+  const {playerListData} = props;
+
+  const baseUrl = '/playersDetailsAPI';
+
+  useEffect(() => {
+      axios.get(baseUrl).then((response) => {
+        // setResponseData(response.data);
+        console.log('sagar', response)
+        props.addPlayerDetails(response.data.result);
+      });
+  },[])
+
+  const callApi =() =>{
+    axios.get(baseUrl).then((response) => {
+      // setResponseData(response.data);
+      props.addPlayerDetails(response.data);
+    });
+  }
 
   const clearAllData = () => {
     setFirstName('');
@@ -57,18 +79,21 @@ const Players = (props) => {
       gender: gender,
       yob: birthYear,
       age: age,
+      batsmanType: batsmanType,
       fielderType: fielderType,
       bowlerType: bowlerType,
     };
     setSuccessMessage("Data Stored Successfully");
-    console.log("Payload", props.playerListData);
-    if(props.playerListData.length > 0){
-        const updatedPlayerList = [...props.playerListData,payload]
-        props.addPlayerDetails(updatedPlayerList);
-    }
-    else{
+
+    
+    console.log("Payload", typeof(props.playerListData), playerListData.length);
+    // if(playerListData.length > 0){
+    //     const updatedPlayerList = playerListData.splice(playerListData.length, 0, payload)
+    //     props.addPlayerDetails(playerListData);
+    // }
+    // else{
         props.addPlayerDetails(payload);
-    }
+    // }
     setTimeout(() => {
         clearAllData();
     }, 2000)
@@ -96,6 +121,7 @@ const Players = (props) => {
     //     This is Players page
     // </div>
     <div>
+      {console.log('response data', respnseData)}
       <Box
         sx={{
           width: "70%",
@@ -317,6 +343,10 @@ const Players = (props) => {
         <div>
         <Button variant="contained" onClick={handleClick}>
           Submit
+        </Button>
+
+        <Button variant="contained" onClick={callApi}>
+          call
         </Button>
         </div>
         {successMessage && (
