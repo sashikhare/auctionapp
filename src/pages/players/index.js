@@ -37,22 +37,14 @@ const Players = (props) => {
 
   const {playerListData} = props;
 
-  const baseUrl = '/playersDetailsAPI';
+  // const baseUrl = '/playersDetailsAPI';
 
-  useEffect(() => {
-      axios.get(baseUrl).then((response) => {
-        // setResponseData(response.data);
-        console.log('sagar', response)
-        props.addPlayerDetails(response.data.result);
-      });
-  },[])
-
-  const callApi =() =>{
-    axios.get(baseUrl).then((response) => {
-      // setResponseData(response.data);
-      props.addPlayerDetails(response.data);
-    });
-  }
+  // useEffect(() => {
+  //     axios.get(baseUrl).then((response) => {
+  //       // setResponseData(response.data);
+  //       props.addPlayerDetails(response.data.result);
+  //     });
+  // },[])
 
   const clearAllData = () => {
     setFirstName('');
@@ -73,26 +65,27 @@ const Players = (props) => {
     const payload = {
       fname: firstName,
       lname: lastName,
-      mob: mobileNo,
+      mob: parseInt(mobileNo),
       area: area,
       city: city,
       gender: gender,
-      yob: birthYear,
+      yob: parseInt(birthYear),
       age: age,
       batsmanType: batsmanType,
       fielderType: fielderType,
       bowlerType: bowlerType,
     };
-    setSuccessMessage("Data Stored Successfully");
+
+    axios.post('/addPlayerAPI', payload)
+        .then(response => setSuccessMessage(response.data.updatedAt));
 
     
-    console.log("Payload", typeof(props.playerListData), playerListData.length);
     // if(playerListData.length > 0){
     //     const updatedPlayerList = playerListData.splice(playerListData.length, 0, payload)
     //     props.addPlayerDetails(playerListData);
     // }
     // else{
-        props.addPlayerDetails(payload);
+        // props.addPlayerDetails(payload);
     // }
     setTimeout(() => {
         clearAllData();
@@ -121,7 +114,6 @@ const Players = (props) => {
     //     This is Players page
     // </div>
     <div>
-      {console.log('response data', respnseData)}
       <Box
         sx={{
           width: "70%",
@@ -345,9 +337,6 @@ const Players = (props) => {
           Submit
         </Button>
 
-        <Button variant="contained" onClick={callApi}>
-          call
-        </Button>
         </div>
         {successMessage && (
           <FormLabel id="demo-row-radio-buttons-group-label">

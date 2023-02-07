@@ -9,12 +9,11 @@ import { columns } from "./playerList";
 
 const PlayerList = (props) => {
   const { playerListData } = props;
-  console.log("sagar res", playerListData);
 
   useEffect(() => {
     axios.get("/playersDetailsAPI").then((response) => {
       // setResponseData(response.data);
-      props.addPlayerDetails(response.data.result);
+      props.getPlayerDetails(response.data.result);
     });
   }, []);
 
@@ -53,7 +52,7 @@ const PlayerList = (props) => {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
     {
-      addPlayerDetails: (data) =>
+      getPlayerDetails: (data) =>
         dispatch({ type: SET_PLAYER_DETAILS, payload: { playerList: data } }),
     },
     dispatch

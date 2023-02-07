@@ -19,10 +19,9 @@ const AppRoutes = () => (
   <App>
     <BrowserRouter>
       <Routes>
-        {/* {console.log("coming here")} */}
         <Route path="/" element={<Header />}>
           <Route path="Home" element={<Home />} />
-          <Route path="Teams" element={<Team />} />
+          <Route path="TeamRegistration" element={<Team />} />
           <Route path="Players" element={<Players />} />
           <Route path="PlayersList" element={<PlayersList />} />
         </Route>

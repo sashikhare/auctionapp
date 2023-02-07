@@ -6,7 +6,7 @@ const columns = [
     { field: 'area', headerName: 'Area', width: 130 },
     { field: 'city', headerName: 'City', width: 130 },
     { field: 'gender', headerName: 'Gender', width: 130 },
-    { field: 'birtYear', headerName: 'Year of Birth', width: 130 },
+    { field: 'birthYear', headerName: 'Year of Birth', width: 130 },
     { field: 'age', headerName: 'Age', width: 130 },
     { field: 'fielderType', headerName: 'Fielder Type', width: 130 },
     { field: 'batsmanType', headerName: 'Batsman Type', width: 130 },

@@ -20,6 +20,7 @@ import Popper from "@mui/material/Popper";
 import MenuList from "@mui/material/MenuList";
 import Home from "../../pages/Home";
 import PlayerSubMenuItem from "./PlayerSubMenuItem"
+import TeamSubMenuItem from "./TeamSubMenuItem"
 
 const pages = ["Home", "Teams", "Players"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -27,27 +28,32 @@ const settings = ["Profile", "Account", "Dashboard", "Logout"];
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
-  const [open, setOpen] = React.useState(false);
+  const [openPlayerSubMenu, setOpenPlayerSubMenu] = React.useState(false);
+  const [openTeamSubMenu, setOpenTeamSubMenu] = React.useState(false);
   const anchorRef = React.useRef(null);
 
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+  const handleTogglePlayerSubMenu = () => {
+    setOpenPlayerSubMenu((prevOpen) => !prevOpen);
+  };
+
+  const handleToggleTeamSubMenu = () => {
+    setOpenTeamSubMenu((prevOpen) => !prevOpen);
   };
 
   const handleClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
-
-    setOpen(false);
+    setOpenPlayerSubMenu(false);
+    setOpenTeamSubMenu(false)
   };
 
   function handleListKeyDown(event) {
     if (event.key === "Tab") {
       event.preventDefault();
-      setOpen(false);
+      setOpenPlayerSubMenu(false);
     } else if (event.key === "Escape") {
-      setOpen(false);
+      setOpenPlayerSubMenu(false);
     }
   }
 
@@ -172,12 +178,20 @@ const Header = () => {
               <Button
                 key="Teams"
                 // onClick={handleCloseNavMenu}
-                component={Link}
-                to={`/Teams`}
+                // component={Link}
+                // to={`/Teams`}
+                // sx={{ my: 2, color: "white", display: "block" }}
                 sx={{ my: 2, color: "white", display: "block" }}
+                ref={anchorRef}
+                id="composition-button"
+                aria-controls={openTeamSubMenu ? "composition-menu" : undefined}
+                aria-expanded={openTeamSubMenu ? "true" : undefined}
+                aria-haspopup="true"
+                onClick={handleToggleTeamSubMenu}
               >
                 Teams
               </Button>
+              <TeamSubMenuItem open={openTeamSubMenu} anchorEl={anchorRef} handleClose={handleClose} handleListKeyDown={handleListKeyDown} />
               <Button
                 key="Players"
                 // onClick={handleCloseNavMenu}
@@ -186,14 +200,14 @@ const Header = () => {
                 sx={{ my: 2, color: "white", display: "block" }}
                 ref={anchorRef}
                 id="composition-button"
-                aria-controls={open ? "composition-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
+                aria-controls={openPlayerSubMenu ? "composition-menu" : undefined}
+                aria-expanded={openPlayerSubMenu ? "true" : undefined}
                 aria-haspopup="true"
-                onClick={handleToggle}
+                onClick={handleTogglePlayerSubMenu}
               >
                 Players
               </Button>
-              <PlayerSubMenuItem open={open} anchorEl={anchorRef} handleClose={handleClose} handleListKeyDown={handleListKeyDown} />
+              <PlayerSubMenuItem open={openPlayerSubMenu} anchorEl={anchorRef} handleClose={handleClose} handleListKeyDown={handleListKeyDown} />
             </Box>
           </Toolbar>
         </Container>

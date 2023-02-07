@@ -1,21 +1,11 @@
-var mysql = require('mysql2');
 var express = require('express');
-var router = express.Router();
+const con = require("./dbConnection")
 
-var con = mysql.createConnection({
-  host: '127.0.0.1',
-  user: 'root',
-  password: 'May@1991',
-  database: 'auctionapp',
-});
+const router = express.Router();
 
 con.connect(function(err) {
   if (err) throw err;
 });
-
-
-
-console.log('coming');
 
 /* GET Player listing. */
 router.get('/', function(req, res, next) {
@@ -23,7 +13,6 @@ router.get('/', function(req, res, next) {
   select * from auctionapp.playerDetails;
     `;
   con.query(query, function(err, result, fields) {
-    console.log('res', res)
     res.json({
       result,
       err,
