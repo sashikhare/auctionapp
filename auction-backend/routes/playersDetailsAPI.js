@@ -6,7 +6,7 @@ var con = mysql.createConnection({
   host: '127.0.0.1',
   user: 'root',
   password: 'May@1991',
-  database: 'AuctionApp',
+  database: 'auctionapp',
 });
 
 con.connect(function(err) {
@@ -20,7 +20,7 @@ console.log('coming');
 /* GET Player listing. */
 router.get('/', function(req, res, next) {
   const query = `
-  select * from auctionapp.playersDetails;
+  select * from auctionapp.playerDetails;
     `;
   con.query(query, function(err, result, fields) {
     console.log('res', res)

@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import Home from "./pages/Home";
 import Team from "./pages/Team";
 import Players from "./pages/players";
+import PlayersList from "./pages/PlayersList";
 // import Erro404 from './Components/Error/404';
 // import Main from './Components/Main';
 // import Home from './Components/Home/home.jsx';
@@ -23,6 +24,7 @@ const AppRoutes = () => (
           <Route path="Home" element={<Home />} />
           <Route path="Teams" element={<Team />} />
           <Route path="Players" element={<Players />} />
+          <Route path="PlayersList" element={<PlayersList />} />
         </Route>
         {/* <Route path="/login" component={Login} />
 			<Route path="/main" component={Main} />

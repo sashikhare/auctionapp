@@ -44,7 +44,13 @@ const PlayerSubMenuItem = (props) =>{
                           >
                             Add Player
                           </MenuItem>
-                          <MenuItem onClick={handleClose}>My account</MenuItem>
+                          <MenuItem
+                            component={Link}
+                            to={`/PlayersList`}
+                            onClick={handleClose}
+                          >
+                            Players Details
+                          </MenuItem>
                           <MenuItem onClick={handleClose}>Logout</MenuItem>
                         </MenuList>
                       </ClickAwayListener>
