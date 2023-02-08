@@ -9,7 +9,7 @@ import FormLabel from "@mui/material/FormLabel";
 import Button from "@mui/material/Button";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { SET_PLAYER_DETAILS } from "../../redux/action/ActionTypes";
+import { SET_PLAYERS_LIST } from "../../redux/action/ActionTypes";
 import ImageUpload from "../../components/ImageUpload";
 // import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 // import FormControl from "@mui/material/FormControl";
@@ -361,7 +361,7 @@ const mapDispatchToProps = dispatch => {
 	return bindActionCreators(
 		{
 			addPlayerDetails: data =>
-				dispatch({ type: SET_PLAYER_DETAILS, payload: {playerList: data} }),
+				dispatch({ type: SET_PLAYERS_LIST, payload: {playerList: data} }),
 		},
 		dispatch,
 	);

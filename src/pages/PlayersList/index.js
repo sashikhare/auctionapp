@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
-import { SET_PLAYER_DETAILS } from "../../redux/action/ActionTypes";
+import { SET_PLAYERS_LIST } from "../../redux/action/ActionTypes";
 import { columns } from "./playerList";
 
 const PlayerList = (props) => {
@@ -53,7 +53,7 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
     {
       updatePlayersList: (data) =>
-        dispatch({ type: SET_PLAYER_DETAILS, payload: { playerList: data } }),
+        dispatch({ type: SET_PLAYERS_LIST, payload: { playerList: data } }),
     },
     dispatch
   );

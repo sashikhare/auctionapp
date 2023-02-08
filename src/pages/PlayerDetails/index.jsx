@@ -8,34 +8,36 @@ import { SET_PLAYER_DETAILS } from "../../redux/action/ActionTypes";
 const PlayerDetails = props => {
     const location = useLocation()
     const { id } = location.state
+    const {playerDetails} = props;
+    console.log(playerDetails)
 
     useEffect(() => {
         axios.get("/getPlayerDetailsAPI", { params: { id: id } }).then((response) => {
             // setResponseData(response.data);
-            //   props.getPlayerDetails(response.data.result);
+            props.getPlayerDetails(response.data.result);
         });
     }, []);
     return (
         <div>
-            This is Player details page
+            {playerDetails.firstName}
         </div>
     )
 }
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(
-      {
-        addPlayerDetails: (data) =>
-          dispatch({ type: SET_PLAYER_DETAILS, payload: { playerList: data } }),
-      },
-      dispatch
+        {
+            getPlayerDetails: (data) =>
+                dispatch({ type: SET_PLAYER_DETAILS, payload: { playerDetails: data } }),
+        },
+        dispatch
     );
-  };
-  
-  const mapStateToProps = (state) => {
+};
+
+const mapStateToProps = (state) => {
     return {
-      playerListData: state.PlayerReducer.playerList,
+        playerDetails: state.PlayerReducer.playerDetails,
     };
-  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayerDetails);
