@@ -39,7 +39,7 @@ const PlayerSubMenuItem = (props) =>{
                         >
                           <MenuItem
                             component={Link}
-                            to={`/Players`}
+                            to={`/PlayerRegistration`}
                             onClick={handleClose}
                           >
                             Add Player

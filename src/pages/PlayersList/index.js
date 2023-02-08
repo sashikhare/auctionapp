@@ -11,9 +11,9 @@ const PlayerList = (props) => {
   const { playerListData } = props;
 
   useEffect(() => {
-    axios.get("/playersDetailsAPI").then((response) => {
+    axios.get("/playersListAPI").then((response) => {
       // setResponseData(response.data);
-      props.getPlayerDetails(response.data.result);
+      props.updatePlayersList(response.data.result);
     });
   }, []);
 
@@ -52,7 +52,7 @@ const PlayerList = (props) => {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
     {
-      getPlayerDetails: (data) =>
+      updatePlayersList: (data) =>
         dispatch({ type: SET_PLAYER_DETAILS, payload: { playerList: data } }),
     },
     dispatch

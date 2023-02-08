@@ -11,7 +11,6 @@ con.connect(function (err) {
 console.log('coming')
 /* Add Player Details. */
 router.post("/", function (req, res, next) {
-  console.log('reqest bide', req)
   const {
     fname,
     lname,
@@ -30,7 +29,6 @@ router.post("/", function (req, res, next) {
     con.query(query, function (err, result) {
       if (err) throw err
       console.log('Row has been updated')
-      // req.flash('success', 'Data stored!')
       res.redirect('/')
     })
 

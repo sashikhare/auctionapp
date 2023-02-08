@@ -10,7 +10,7 @@ import Button from "@mui/material/Button";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { SET_PLAYER_DETAILS } from "../../redux/action/ActionTypes";
-
+import ImageUpload from "../../components/ImageUpload";
 // import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 // import FormControl from "@mui/material/FormControl";
 // import FormHelperText from "@mui/material/FormHelperText";
@@ -33,18 +33,19 @@ const Players = (props) => {
   // const [errorMessage, setErrorMessage] = React.useState("");
   const [successMessage, setSuccessMessage] = React.useState("");
   const [respnseData, setResponseData] = useState();
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
   // const [errorMsg, setErrorMsg] = useState()
 
-  const {playerListData} = props;
+  useEffect(() => {
+    if (selectedImage) {
+      setImageUrl(URL.createObjectURL(selectedImage));
+    }
+  }, [selectedImage]);
 
-  // const baseUrl = '/playersDetailsAPI';
-
-  // useEffect(() => {
-  //     axios.get(baseUrl).then((response) => {
-  //       // setResponseData(response.data);
-  //       props.addPlayerDetails(response.data.result);
-  //     });
-  // },[])
+  const imageUpload = (e) => {
+    setSelectedImage(e.target.files[0]);
+  };
 
   const clearAllData = () => {
     setFirstName('');
@@ -91,17 +92,6 @@ const Players = (props) => {
         clearAllData();
     }, 2000)
   };
-
-  //   const isTextValid = (text) => {
-  //     console.log("coming here", text);
-  //     const regexp1 = new RegExp("[^a-z]");
-  //     if (regexp1.test(text)) {
-  //       setErrorMessage("Enter Proper Name");
-  //       return false;
-  //     } else {
-  //       return true;
-  //     }
-  //   };
 
   const calculateAge = () => {
     const today = new Date();
@@ -242,6 +232,25 @@ const Players = (props) => {
             size="small"
             value={age}
             sx={{ margin: "8px" }}
+          />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            margin: "0.75rem",
+            alignItems: "center",
+          }}
+          id="teamLogo"
+        >
+          <FormLabel id="demo-row-radio-buttons-group-label">
+            Photo
+          </FormLabel>
+          <ImageUpload
+            imageUpload={imageUpload}
+            selectedImage={selectedImage}
+            imageUrl={imageUrl}
+            isAddPlayer
           />
         </div>
         <h3>Cricket Information</h3>
