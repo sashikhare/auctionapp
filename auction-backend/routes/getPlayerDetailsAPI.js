@@ -10,6 +10,7 @@ con.connect(function(err) {
 /* GET Player listing. */
 router.get('/', function(req, res, next) {
   const {id} = req.query
+  console.log('sagar' , id)
   const query = `
   select * from auctionapp.playerDetails where id=${id};
     `;

@@ -7,7 +7,6 @@ const initialState = {
 
 const playerReducer = (state = initialState, action) => {
   const { type = null, payload = {} } = action;
-  console.log('Payload', payload)
   switch (type) {
     case SET_PLAYERS_LIST: {
       // if(state.length > 0){

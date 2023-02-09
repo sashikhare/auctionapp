@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 
 const ImageUpload = props => {
     const {imageUpload,selectedImage, imageUrl, isAddPlayer = false} = props
+    console.log(imageUrl)
     return(
        <>
        <input

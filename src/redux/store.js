@@ -32,7 +32,6 @@ import rootReducer from './rootReducers';
 // const persistedStore = loadFromLocalStorage();
 
 const configureStore = initialState => {
-	// console.log('store');
 	const middleware = [thunk];
 	const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 	return createStore(rootReducer, initialState, composeEnhancers(applyMiddleware(...middleware)));

@@ -8,11 +8,10 @@ import { SET_PLAYERS_LIST } from "../../redux/action/ActionTypes";
 import { columns } from "./playerList";
 
 const PlayerList = (props) => {
-  const { playerListData } = props;
+  const { playerListData = {} } = props;
 
   useEffect(() => {
     axios.get("/playersListAPI").then((response) => {
-      // setResponseData(response.data);
       props.updatePlayersList(response.data.result);
     });
   }, []);
